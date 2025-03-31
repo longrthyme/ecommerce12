@@ -13,6 +13,11 @@ import AdminLayout from "../layouts/AdminLayout";
 import Product from "../pages/Product";
 import Order from "../pages/Orders";
 import AddProduct from "../pages/ProductForm";
+import ProductList from "../pages/ProductList";
+import ProductPage from "../pages/client/ProductPage";
+import ClientLayout from "../layouts/ClientLayout";
+import ProductDetailPage from "../pages/client/ProductDetailPage";
+import CartPage from "../pages/client/CartPage";
 
 
 const AppRoutes = () => {
@@ -23,7 +28,24 @@ const AppRoutes = () => {
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
-  
+          {/* <Route path="/san-pham" element={<ProductPage />} /> */}
+
+          <Route
+          path="/"
+          element={
+            // <PrivateRoute>
+              <ClientLayout />
+            // </PrivateRoute>
+          }
+        >
+       <Route path="/san-pham" element={<ProductPage />} />
+       <Route path="/gio-hang" element={<CartPage />} />
+       <Route path="/product/detail/:product_id" element={<ProductDetailPage />} />
+        </Route>
+
+
+
+
           {/* Protected Routes - Only accessible when authenticated */}
           <Route
           path="/admin"
@@ -33,6 +55,8 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         >
+          <Route path="products/list" element={<ProductList />} />
+
           <Route path="products" element={<Product />} />
           <Route path="products/add" element={<AddProduct />} />
           <Route path="orders" element={<Order />} />

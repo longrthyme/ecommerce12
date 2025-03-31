@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { User } from "lucide-react";
+import { ShoppingCartIcon, User } from "lucide-react";
 import axiosInstance from "../services/axiosInstance";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
     const navigate = useNavigate();
+    const {cartItems} = useCart()
 
   const logout = async () => {
     try {
@@ -22,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between">
+    <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between fixed top-0 left-0 w-full">
       {/* Left: Logo & Menu */}
       <div className="flex items-center space-x-6">
         <Link to="/" className="text-xl font-bold text-blue-600">
@@ -36,6 +38,13 @@ const Header = () => {
             Sản Phẩm
           </Link>
         </nav>
+      </div>
+
+      <div className="relative flex justify-end w-full mr-10 hover:text-blue-400">
+      <Link to="/gio-hang">
+      <ShoppingCartIcon  />
+      </Link>
+      <div className="absolute bottom-4 right-[-4px] "> {cartItems.length}</div>
       </div>
 
       {/* Right: User Dropdown */}

@@ -38,7 +38,7 @@ const Sidebar = () => {
           {openMenus.products && (
             <div className="ml-6 mt-2 space-y-1">
               <Link
-                to="/admin/products"
+                to="/admin/products/list"
                 className={`block px-4 py-2 rounded hover:bg-gray-700 ${
                   location.pathname === "/admin/products" ? "bg-gray-700" : ""
                 }`}
