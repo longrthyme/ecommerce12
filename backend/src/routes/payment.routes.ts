@@ -46,8 +46,6 @@ const createPayment = async (req: Request, res: Response) => {
       const {  amount, bankCode } = req.body;
   
       let date = new Date();
-    //   let createDate = date.toISOString().replace(/[-:.TZ]/g, "").slice(0, 14); // YYYYMMDDHHMMSS
-    const createDate = moment(date).format("YYYYMMDDHHmmss");
     const orderId = moment(date).format("DDHHmmss");
 
     console.log("vlaue " + TMN_CODE + SECRET_KEY);
@@ -67,22 +65,7 @@ const createPayment = async (req: Request, res: Response) => {
 
       const vnpExpireDate = formatDateToVnpCreateDate(gmt7Time);
   
-      // let vnp_Params:  VnpParams  = {
-      //   vnp_Version: "2.1.0",
-      //   vnp_Command: "pay",
-      //   vnp_TmnCode: TMN_CODE,
-      //   vnp_Locale: "vn",
-      //   vnp_CurrCode: "VND",
-      //   vnp_TxnRef: orderId,
-      //   vnp_OrderInfo: `Thanh toan cho ma GD:`,
-      //   vnp_OrderType: "other",
-      //   vnp_Amount: 10000 * 100,
-      //   vnp_ReturnUrl: RETURN_URL,
-      //   vnp_IpAddr: "127.0.0.1",
-      //   vnp_CreateDate: createDate,
-    
-      // };
-
+ 
       const vnpIpAddr =
       req.headers['x-forwarded-for'] ||
       req.connection.remoteAddress ||
