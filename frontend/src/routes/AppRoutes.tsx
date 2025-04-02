@@ -18,6 +18,7 @@ import ProductPage from "../pages/client/ProductPage";
 import ClientLayout from "../layouts/ClientLayout";
 import ProductDetailPage from "../pages/client/ProductDetailPage";
 import CartPage from "../pages/client/CartPage";
+import CheckoutPage from "../pages/client/CheckoutPage";
 
 
 const AppRoutes = () => {
@@ -38,6 +39,7 @@ const AppRoutes = () => {
             // </PrivateRoute>
           }
         >
+          <Route path="/thanh-toan" element={<CheckoutPage />} />
        <Route path="/san-pham" element={<ProductPage />} />
        <Route path="/gio-hang" element={<CartPage />} />
        <Route path="/product/detail/:product_id" element={<ProductDetailPage />} />

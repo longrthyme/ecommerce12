@@ -10,7 +10,9 @@ const mysqlURI = process.env.MYSQL_URI as string;
 // MongoDB Connection
 export const connectMongoDB = async () => {
   try {
-    await mongoose.connect(mongoURI);
+    await mongoose.connect(mongoURI, {
+      family: 4,
+  });
     console.log("✅ MongoDB Connected");
   } catch (error) {
     console.error("❌ MongoDB Connection Error:", error);
