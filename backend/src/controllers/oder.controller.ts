@@ -2,6 +2,50 @@ import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { cassandraClient } from "../config/db";
 import { CartItem } from "../models/CartItem";
+import { Client, types } from 'cassandra-driver';  // Importing cassandra-driver and types
+
+export const getClientOrder = async (req: Request, res: Response) => {
+  const { customer_id } = req.query;
+
+
+  try {
+    const orders = await cassandraClient.execute(
+      "SELECT * FROM seller_orders WHERE customer_id = ?",
+      [customer_id],
+      { prepare: true }
+    );
+
+    // Process orders
+    const formattedOrders = orders.rows.map((order) => {
+      let totalAmount = order.total_amount;
+
+      // Check if total_amount is a BigDecimal and if it's in scientific notation
+      if (totalAmount instanceof types.BigDecimal) {
+                try {
+          // Convert to a string safely and handle large values
+          totalAmount = totalAmount.toString();
+          if (totalAmount.includes('E')) {
+            // If it's scientific notation, fix it
+            totalAmount = parseFloat(totalAmount).toFixed(2);
+          }
+        } catch (e) {
+          console.error("Error processing BigDecimal:", e);
+          totalAmount = '0';  // Default to 0 if conversion fails
+        }
+      }
+
+      return {
+        ...order,
+        total_amount: totalAmount.toString(), // Ensure it's a string
+      };
+    });
+
+    return res.json(formattedOrders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 
 export const getOrderList = async (req: Request, res: Response) => {

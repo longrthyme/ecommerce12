@@ -4,7 +4,7 @@ import axiosInstance from "../services/axiosInstance";
 import { useLoading } from "../hooks/useLoading";
 // import { useHistory } from "react-router-dom";
 
-interface Order {
+export interface Order {
     order_id: string; // or UUID if you prefer UUID type
     customer_id: string; // or UUID if you prefer UUID type
     total_amount: number;

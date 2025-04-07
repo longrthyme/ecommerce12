@@ -22,6 +22,9 @@ import CheckoutPage from "../pages/client/CheckoutPage";
 import OrderListPage from "../pages/OrderListPage";
 import FailurePage from "../components/FailurePage";
 import SuccessPage from "../components/SuccessPage";
+import ClientDashboard from "../layouts/ClientDashboardLayout";
+import UserProfile from "../pages/client/ProfilePage";
+import ClientOrders from "../pages/client/ClientOrder";
 
 
 const AppRoutes = () => {
@@ -33,6 +36,24 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
           {/* <Route path="/san-pham" element={<ProductPage />} /> */}
+          
+
+
+          <Route
+          path="/"
+          element={
+            // <PrivateRoute>
+              <ClientDashboard />
+            // </PrivateRoute>
+          }
+        >
+          <Route path="/profile" element={<UserProfile />} />
+
+          <Route path="/orders" element={<ClientOrders />} />
+    
+        </Route>
+
+
 
           <Route
           path="/"
