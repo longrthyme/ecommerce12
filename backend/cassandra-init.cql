@@ -22,15 +22,19 @@ CREATE TABLE IF NOT EXISTS seller_products (
 
 -- Bảng Đơn hàng của Người Bán
 CREATE TABLE IF NOT EXISTS seller_orders (
-    seller_id UUID,
-    order_id UUID,
     customer_id UUID,
+    order_id UUID,
     total_amount DECIMAL,
+    payment_method TEXT,
+    address TEXT,
+    phone TEXT,
+    name TEXT,
     status TEXT,  -- ('pending', 'processing', 'shipped', 'delivered', 'cancelled')
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
-    PRIMARY KEY (seller_id, order_id)
+    PRIMARY KEY (customer_id, order_id)
 );
+
 
 -- Bảng Chi tiết Đơn hàng của Người Bán
 CREATE TABLE IF NOT EXISTS seller_order_items (

@@ -10,7 +10,7 @@ export const getCartList = async (req: Request, res: Response) => {
     const { userId } = req.params;
     
     const cartItems = await CartItem.find({ user_id: userId })
-      .select("product_id quantity price total_price image") // Select only required fields
+      .select("product_id quantity price total_price image seller_id") // Select only required fields
       .lean(); // Converts Mongoose document to plain JSON (better performance)
 
     res.status(200).json({ cartItems });
@@ -23,7 +23,7 @@ export const getCartList = async (req: Request, res: Response) => {
 export const addToCart = async (req: Request, res: Response) => {
 
     try {
-        const { user_id, name, product_id, quantity, price, image } = req.body;
+        const { user_id, name, product_id, quantity, seller_id, price, image } = req.body;
 
         console.log("data to cart ", req.body);
         
@@ -41,11 +41,12 @@ export const addToCart = async (req: Request, res: Response) => {
           // If item exists, update quantity
           cartItem.quantity += quantity;
           cartItem.total_price = cartItem.quantity * cartItem.price;
+          cartItem.seller_id = seller_id;
           await cartItem.save();
           return res.status(200).json({ message: "Cart updated!", cartItem });
         } else {
           // If item doesn't exist, add new item
-          cartItem = new CartItem({ user_id, product_id, quantity, price, total_price, image, name });
+          cartItem = new CartItem({ user_id, product_id, quantity, price, total_price, image, name, seller_id });
           await cartItem.save();
           return res.status(201).json({ message: "Item added to cart!", cartItem });
         }

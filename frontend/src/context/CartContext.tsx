@@ -12,6 +12,7 @@ interface CartItem {
   total_price: number;
   image: string;
   name: string;
+  seller_id: string;
 }
 
 interface CartContextType {

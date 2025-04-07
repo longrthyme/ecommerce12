@@ -43,7 +43,8 @@ const ProductDetailPage = () => {
         quantity: 1, // Assuming 1 item is added to the cart
         price: product.price, // Price of the product
         total_price: product.price * 1, // Calculate total price (quantity * price)
-        image: product.images[0], // Assuming first image is the main image
+        image: product.images[0], // Assuming first image is the main image,
+        seller_id: product.seller_id
       };
     
       try {

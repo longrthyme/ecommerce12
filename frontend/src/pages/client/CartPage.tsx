@@ -1,10 +1,12 @@
-import { MinusCircleIcon, PlusCircleIcon, Trash2Icon } from "lucide-react";
+import { CheckCircle, MinusCircleIcon, PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { useCart } from "../../hooks/useCart";
 import axiosInstance from "../../services/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 
 const CartPage = () => {
   const { cartItems } = useCart(); // Get cart data from Context
+  const navigate = useNavigate()
 
   const handleUpdateQuantity = async (itemId: string, newQuantity: number) => {
     if (newQuantity < 1) return; // Prevent negative quantities
@@ -67,6 +69,14 @@ const CartPage = () => {
         ))}
       </ul>
       )}
+    
+<button
+            type="submit"
+            onClick={() =>  navigate("/thanh-toan")}
+            className="mt-10 w-40 bg-blue-600 text-white py-2 rounded-md font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition"
+          >
+            <CheckCircle className="w-5 h-5" /> Checkout
+          </button>
     </div>
   );
 };

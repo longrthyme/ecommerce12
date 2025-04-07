@@ -9,6 +9,7 @@ const CartItemSchema = new mongoose.Schema({
     image: { type: String, required: false }, // URL or path to the product image
     name: { type: String, required: false }, // URL or path to the product image
     created_at: { type: Date, default: Date.now },
+    seller_id: { type: String, required: true }
   });
 
 export const CartItem = mongoose.model("CartItem", CartItemSchema);

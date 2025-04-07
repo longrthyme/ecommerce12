@@ -44,27 +44,31 @@ export default function AuthForm() {
   const onSubmit = async (data: FormData) => {
     console.log("in submit");
 
-    if (isLogin) {
-      const user = await login({ email: data.email, password: data.password });
+    try {
+      if (isLogin) {
+        const user = await login({ email: data.email, password: data.password });
 
-      toast.success("Login successful");
-      if (user.role == "seller") {
-        navigate("/admin"); // Redirect to dashboard
+        if (user.role == "seller") {
+          navigate("/admin"); // Redirect to dashboard
+        } else {
+          // user
+          navigate("/"); // Redirect to dashboard
+        }
       } else {
-        // user
-        navigate("/"); // Redirect to dashboard
+        console.log("register", JSON.stringify(data));
+  
+        const user = await register(data.email, data.username, data.password);
+  
+        if (user) {
+          toast.success("Register successful");
+          navigate("/"); // Redirect to dashboard
+        }
       }
-    } else {
-      console.log("register", JSON.stringify(data));
-
-      const user = await register(data.email, data.username, data.password);
-
-      if (user) {
-        toast.success("Register successful");
-        navigate("/dashboard"); // Redirect to dashboard
-      }
+      reset();
+    } catch(error) {
+      toast.error("Incredentails not valid")
+      return
     }
-    reset();
   };
 
   // if (user) return <button onClick={logout}>Logout</button>;

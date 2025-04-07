@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import axiosInstance from "../services/axiosInstance";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface AuthContextType {
   user: any;
   login: (userData: any) => Promise<any>;
@@ -50,7 +53,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       return response.data;
     } catch (error) {
-      throw error;
+      // throw error;
+      toast.error("Invalide credentials, " + error)
+      return
     }
   };
 

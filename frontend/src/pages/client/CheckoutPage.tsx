@@ -3,6 +3,8 @@ import { ShoppingCart, CreditCard, Truck, CheckCircle } from "lucide-react";
 import { useCart } from "../../hooks/useCart";
 import axiosInstance from "../../services/axiosInstance";
 import { useLoading } from "../../hooks/useLoading";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const [form, setForm] = useState({
@@ -14,6 +16,8 @@ const CheckoutPage = () => {
   const [errors, setErrors] = useState({ name: "", address: "", phone: "" });
   const {cartItems} = useCart();
   const {setLoading} = useLoading()
+  const navigate = useNavigate();
+  
 //   const cartItems = [
 //     { id: 1, name: "Product 1", price: 200000, quantity: 2, image: "/images/product1.jpg" },
 //     { id: 2, name: "Product 2", price: 150000, quantity: 1, image: "/images/product2.jpg" },
@@ -30,34 +34,41 @@ const CheckoutPage = () => {
     return Object.values(newErrors).every((err) => err === "");
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-
+  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // if (!validateForm()) return;
     console.log("Order placed:", form);
-    try {
-        const response = await axiosInstance.post("/create-payment", {
-          orderId: "123456",
-          amount: 500000, // Example amount
-          bankCode: "",
-        });
 
-        console.log("url vnpay ", response);
+
+    const response = await axiosInstance.post("/create-payment/", {
+      ...form,
+      cartItems,
+      customer_id: localStorage.getItem("id")
+
+    });
+
+    if (form.paymentMethod === "cod") {
+      toast.success("Đặt hàng thành công!");
+      navigate("/");
+    } else if (form.paymentMethod === "vnpay")
+      console.log("url vnpay ", response);
         
-
-        if (response.data.paymentUrl) {
-          window.location.href = response.data.paymentUrl; // Redirect to VNPAY
-        }
-      } catch (error) {
-        console.error("VNPAY Payment Error:", error);
-        alert("Payment failed!");
-      } finally {
-        setLoading(false);
+      if (response.data.paymentUrl) {
+        window.location.href = response.data.paymentUrl; // Redirect to VNPAY
       }
     }
+     
+    setLoading(false);
+    
+
 
 
   return (

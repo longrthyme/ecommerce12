@@ -19,6 +19,9 @@ import ClientLayout from "../layouts/ClientLayout";
 import ProductDetailPage from "../pages/client/ProductDetailPage";
 import CartPage from "../pages/client/CartPage";
 import CheckoutPage from "../pages/client/CheckoutPage";
+import OrderListPage from "../pages/OrderListPage";
+import FailurePage from "../components/FailurePage";
+import SuccessPage from "../components/SuccessPage";
 
 
 const AppRoutes = () => {
@@ -41,6 +44,10 @@ const AppRoutes = () => {
         >
           <Route path="/thanh-toan" element={<CheckoutPage />} />
        <Route path="/san-pham" element={<ProductPage />} />
+       <Route path="failure" element={<FailurePage />} />
+
+       <Route path="/success" element={<SuccessPage />} />
+
        <Route path="/gio-hang" element={<CartPage />} />
        <Route path="/product/detail/:product_id" element={<ProductDetailPage />} />
         </Route>
@@ -61,7 +68,7 @@ const AppRoutes = () => {
 
           <Route path="products" element={<Product />} />
           <Route path="products/add" element={<AddProduct />} />
-          <Route path="orders" element={<Order />} />
+          <Route path="orders" element={<OrderListPage />} />
         </Route>
           {/* <Route
             element={
