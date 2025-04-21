@@ -66,6 +66,15 @@ CREATE TABLE IF NOT EXISTS seller_revenue (
     PRIMARY KEY (seller_id, date)
 );
 
+CREATE TABLE IF NOT EXISTS inventory_notifications (
+  id UUID PRIMARY KEY,
+  seller_id UUID,
+  product_id UUID,
+  message TEXT,
+  created_at TIMESTAMP,
+  is_read BOOLEAN
+);
+
 
 INSERT INTO seller_products (seller_id, product_id, name, description, price, stock, status, images, created_at, updated_at)
 VALUES (uuid(), uuid(), 'iPhone 15 Pro Max', 'Apple iPhone 15 Pro Max - 256GB, Titan Black', 1399.99, 50, 'available', 

@@ -19,10 +19,13 @@ const ClientLayout = () => {
           isLoading && <Spinner />
         }
         <Outlet /> {/* Render nested admin routes */}
+
+        <Footer />
       </div>
 
-      <Footer />
+    
     </div>
+    
   );
 };
 

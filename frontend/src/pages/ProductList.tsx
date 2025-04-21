@@ -11,6 +11,9 @@ const ProductList = () => {
   const [limit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const { setLoading} = useLoading()
+  const [showModal, setShowModal] = useState(false);
+const [selectedProduct, setSelectedProduct] = useState<any>(null);
+const [newStock, setNewStock] = useState('');
 
   useEffect(() => {
     fetchProducts(page);
@@ -31,10 +34,13 @@ const ProductList = () => {
   };
 
   const handleUpdate = (id: string) => {
-    console.log("Update Product ID:", id);
-    // Add update functionality here
+    const product = products.find((p) => p.product_id === id);
+    if (product) {
+      setSelectedProduct(product);
+      setNewStock(product.stock.toString());
+      setShowModal(true);
+    }
   };
-
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
 
@@ -48,6 +54,52 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto p-6">
+
+{showModal && selectedProduct && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-6 rounded shadow-lg w-[90%] max-w-md">
+      <h3 className="text-xl font-semibold mb-4">Update Stock for "{selectedProduct.name}"</h3>
+
+      <input
+        type="number"
+        value={newStock}
+        onChange={(e) => setNewStock(e.target.value)}
+        className="border p-2 w-full mb-4"
+        placeholder="Enter new stock"
+      />
+
+      <div className="flex justify-end space-x-2">
+        <button
+          onClick={() => setShowModal(false)}
+          className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={async () => {
+            try {
+              await axiosInstance.put('/product/update', {
+                seller_id: selectedProduct.seller_id,
+                product_id: selectedProduct.product_id,
+                stock: parseInt(newStock),
+              });
+
+              // Refresh product list after update
+              fetchProducts(page);
+              setShowModal(false);
+            } catch (error) {
+              console.error("Error updating stock:", error);
+            }
+          }}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       <h2 className="text-2xl font-bold mb-4">Product List</h2>
 
       {/* Product Table */}

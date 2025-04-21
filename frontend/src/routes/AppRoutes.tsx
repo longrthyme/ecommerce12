@@ -25,59 +25,60 @@ import SuccessPage from "../components/SuccessPage";
 import ClientDashboard from "../layouts/ClientDashboardLayout";
 import UserProfile from "../pages/client/ProfilePage";
 import ClientOrders from "../pages/client/ClientOrder";
+import InventoryPage from "../pages/InventoryPage";
 
 
 const AppRoutes = () => {
-    return (
-        <>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Auth />} />
-          {/* <Route path="/san-pham" element={<ProductPage />} /> */}
-          
+  return (
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+        {/* <Route path="/san-pham" element={<ProductPage />} /> */}
 
 
-          <Route
+
+        <Route
           path="/"
           element={
             // <PrivateRoute>
-              <ClientDashboard />
+            <ClientDashboard />
             // </PrivateRoute>
           }
         >
           <Route path="/profile" element={<UserProfile />} />
 
           <Route path="/orders" element={<ClientOrders />} />
-    
+
         </Route>
 
 
 
-          <Route
+        <Route
           path="/"
           element={
             // <PrivateRoute>
-              <ClientLayout />
+            <ClientLayout />
             // </PrivateRoute>
           }
         >
           <Route path="/thanh-toan" element={<CheckoutPage />} />
-       <Route path="/san-pham" element={<ProductPage />} />
-       <Route path="failure" element={<FailurePage />} />
+          <Route path="/san-pham" element={<ProductPage />} />
+          <Route path="failure" element={<FailurePage />} />
 
-       <Route path="/success" element={<SuccessPage />} />
+          <Route path="/success" element={<SuccessPage />} />
 
-       <Route path="/gio-hang" element={<CartPage />} />
-       <Route path="/product/detail/:product_id" element={<ProductDetailPage />} />
+          <Route path="/gio-hang" element={<CartPage />} />
+          <Route path="/product/detail/:product_id" element={<ProductDetailPage />} />
         </Route>
 
 
 
 
-          {/* Protected Routes - Only accessible when authenticated */}
-          <Route
+        {/* Protected Routes - Only accessible when authenticated */}
+        <Route
           path="/admin"
           element={
             <PrivateRoute>
@@ -85,13 +86,15 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         >
+          <Route path="inventory" element={<InventoryPage />} />
+
           <Route path="products/list" element={<ProductList />} />
 
           <Route path="products" element={<Product />} />
           <Route path="products/add" element={<AddProduct />} />
           <Route path="orders" element={<OrderListPage />} />
         </Route>
-          {/* <Route
+        {/* <Route
             element={
               <AuthProvider>
                 <PrivateRoute />
@@ -101,8 +104,8 @@ const AppRoutes = () => {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route> */}
 
-          
-          <Route
+
+        <Route
           path="/dashboard"
           element={
             <PrivateRoute>
@@ -110,10 +113,10 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-        </Routes>
-        </>
-     
-    );
-  };
-  
-  export default AppRoutes;
+      </Routes>
+    </>
+
+  );
+};
+
+export default AppRoutes;

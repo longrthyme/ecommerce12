@@ -6,6 +6,9 @@ import productRoutes from "./routes/product.routes";
 import cartRoutes from "./routes/cart.routes";
 import paymentRoutes from "./routes/payment.routes";
 import orderRoutes from "./routes/order.routes";
+import inventoryRoutes from "./routes/inventory.routes";
+import notiRoutes from "./routes/noti.routes";
+
 
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -44,6 +47,10 @@ app.use("/api/cart/", cartRoutes);
 app.use("/", paymentRoutes);
 
 app.use("/api/orders", orderRoutes);
+
+app.use("/api/inventory", inventoryRoutes);
+
+app.use("/api/noti", notiRoutes);
 
 
 export default app;
